@@ -7,5 +7,8 @@ add_definitions(-D ACM_LOCAL)
 
 add_executable(study_Introduction_to_Algorithms
         main.cpp
+)
+
+add_executable(insertion_sort
         U2/INSERTION-SORT/InsertionSort.cpp
 )
