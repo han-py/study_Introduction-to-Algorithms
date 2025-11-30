@@ -12,3 +12,7 @@ add_executable(study_Introduction_to_Algorithms
 add_executable(insertion_sort
         U2/INSERTION-SORT/InsertionSort.cpp
 )
+
+add_executable(
+        U2/BUBBLE-SORT/BubbleSort.cpp
+)
