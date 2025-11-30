@@ -19,3 +19,8 @@ add_executable(insertion_sort
 add_executable(bubble_sort
         U2/BUBBLE-SORT/BubbleSort.cpp
 )
+
+# 最大子数组独立可执行文件
+add_executable(find_maximum_subarray
+        U4/P1_FIND-MAXIMUM-SUBARRAY/FindMaximumSubarray.cpp
+)
