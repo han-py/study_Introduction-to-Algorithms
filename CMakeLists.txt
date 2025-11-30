@@ -29,3 +29,8 @@ add_executable(find_maximum_subarray
 add_executable(strassen
         U4/P2_STRASSEN/Strassen.cpp
 )
+
+# Coppersmith-Winograd算法独立可执行文件
+add_executable(coppersmith_winograd
+        U4/P2_STRASSEN/others/Coppersmith-Winograd.cpp
+)
