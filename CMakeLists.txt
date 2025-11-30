@@ -5,14 +5,17 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_definitions(-D ACM_LOCAL)
 
+# 主程序可执行文件
 add_executable(study_Introduction_to_Algorithms
         main.cpp
 )
 
+# 插入排序独立可执行文件
 add_executable(insertion_sort
         U2/INSERTION-SORT/InsertionSort.cpp
 )
 
-add_executable(
+# 冒泡排序独立可执行文件
+add_executable(bubble_sort
         U2/BUBBLE-SORT/BubbleSort.cpp
 )
