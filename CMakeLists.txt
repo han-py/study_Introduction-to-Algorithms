@@ -34,3 +34,8 @@ add_executable(strassen
 add_executable(coppersmith_winograd
         U4/P2_STRASSEN/others/Coppersmith-Winograd.cpp
 )
+
+# 最新算法独立可执行文件
+add_executable(newest
+        U4/P2_STRASSEN/others/newest.cpp
+)
