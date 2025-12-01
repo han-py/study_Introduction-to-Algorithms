@@ -35,6 +35,11 @@ add_executable(coppersmith_winograd
         U4/P2_STRASSEN/others/Coppersmith-Winograd.cpp
 )
 
+# 原始Coppersmith-Winograd算法独立可执行文件
+add_executable(cw_original
+        U4/P2_STRASSEN/others/CW-original.cpp
+)
+
 # 最新算法独立可执行文件
 add_executable(newest
         U4/P2_STRASSEN/others/newest.cpp
