@@ -9,6 +9,7 @@
 #include <cmath>
 #include <chrono>
 #include <memory>
+#include <functional>
 
 /**
  * 矩阵类，用于表示和操作矩阵
@@ -33,7 +34,7 @@ public:
      */
     Matrix(const std::vector<std::vector<double>>& input) {
         rows = input.size();
-        cols = input[0].size();
+        cols = (rows > 0) ? input[0].size() : 0;
         data = input;
     }
 
@@ -46,6 +47,12 @@ public:
      * @return 子矩阵
      */
     Matrix getSubMatrix(int rowStart, int rowEnd, int colStart, int colEnd) const {
+        // 检查边界条件
+        rowStart = std::max(0, rowStart);
+        rowEnd = std::min(rows, rowEnd);
+        colStart = std::max(0, colStart);
+        colEnd = std::min(cols, colEnd);
+        
         Matrix result(rowEnd - rowStart, colEnd - colStart);
         for (int i = rowStart; i < rowEnd; i++) {
             for (int j = colStart; j < colEnd; j++) {
@@ -62,8 +69,8 @@ public:
      * @param colStart 列起始索引
      */
     void setSubMatrix(const Matrix& sub, int rowStart, int colStart) {
-        for (int i = 0; i < sub.rows; i++) {
-            for (int j = 0; j < sub.cols; j++) {
+        for (int i = 0; i < sub.rows && i + rowStart < rows; i++) {
+            for (int j = 0; j < sub.cols && j + colStart < cols; j++) {
                 data[i + rowStart][j + colStart] = sub.data[i][j];
             }
         }
@@ -75,6 +82,11 @@ public:
      * @return 两个矩阵相加的结果
      */
     Matrix operator+(const Matrix& other) const {
+        // 检查矩阵维度是否匹配
+        if (rows != other.rows || cols != other.cols) {
+            throw std::invalid_argument("Matrix dimensions do not match for addition");
+        }
+        
         Matrix result(rows, cols);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -90,6 +102,11 @@ public:
      * @return 两个矩阵相减的结果
      */
     Matrix operator-(const Matrix& other) const {
+        // 检查矩阵维度是否匹配
+        if (rows != other.rows || cols != other.cols) {
+            throw std::invalid_argument("Matrix dimensions do not match for subtraction");
+        }
+        
         Matrix result(rows, cols);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -105,6 +122,11 @@ public:
      * @return 两个矩阵相乘的结果
      */
     Matrix standardMultiply(const Matrix& other) const {
+        // 检查矩阵维度是否匹配
+        if (cols != other.rows) {
+            throw std::invalid_argument("Matrix dimensions do not match for multiplication");
+        }
+        
         Matrix result(rows, other.cols);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < other.cols; j++) {
@@ -207,16 +229,19 @@ Matrix latestMultiply(const Matrix& A, const Matrix& B) {
     
     // 对于中等大小的矩阵，使用Strassen算法
     // Strassen算法是Coppersmith-Winograd算法的基础
-    int half = n / 2;
+    // 确保half不会超过矩阵的实际尺寸
+    int half = std::min(n, std::max(A.cols, B.cols)) / 2;
+    if (half == 0) half = 1; // 防止除以0的情况
+    
     Matrix A11 = A.getSubMatrix(0, half, 0, half);
-    Matrix A12 = A.getSubMatrix(0, half, half, n);
-    Matrix A21 = A.getSubMatrix(half, n, 0, half);
-    Matrix A22 = A.getSubMatrix(half, n, half, n);
+    Matrix A12 = A.getSubMatrix(0, half, half, A.cols);
+    Matrix A21 = A.getSubMatrix(half, A.rows, 0, half);
+    Matrix A22 = A.getSubMatrix(half, A.rows, half, A.cols);
     
     Matrix B11 = B.getSubMatrix(0, half, 0, half);
-    Matrix B12 = B.getSubMatrix(0, half, half, n);
-    Matrix B21 = B.getSubMatrix(half, n, 0, half);
-    Matrix B22 = B.getSubMatrix(half, n, half, n);
+    Matrix B12 = B.getSubMatrix(0, half, half, B.cols);
+    Matrix B21 = B.getSubMatrix(half, B.rows, 0, half);
+    Matrix B22 = B.getSubMatrix(half, B.rows, half, B.cols);
     
     // 计算Strassen算法所需的中间矩阵
     Matrix S1 = B12 - B22;
@@ -289,16 +314,19 @@ Matrix strassenMultiply(const Matrix& A, const Matrix& B) {
     }
     
     // 将矩阵划分为四个子矩阵
-    int half = n / 2;
+    // 确保half不会超过矩阵的实际尺寸
+    int half = std::min(n, std::max(A.cols, B.cols)) / 2;
+    if (half == 0) half = 1; // 防止除以0的情况
+    
     Matrix A11 = A.getSubMatrix(0, half, 0, half);
-    Matrix A12 = A.getSubMatrix(0, half, half, n);
-    Matrix A21 = A.getSubMatrix(half, n, 0, half);
-    Matrix A22 = A.getSubMatrix(half, n, half, n);
+    Matrix A12 = A.getSubMatrix(0, half, half, A.cols);
+    Matrix A21 = A.getSubMatrix(half, A.rows, 0, half);
+    Matrix A22 = A.getSubMatrix(half, A.rows, half, A.cols);
     
     Matrix B11 = B.getSubMatrix(0, half, 0, half);
-    Matrix B12 = B.getSubMatrix(0, half, half, n);
-    Matrix B21 = B.getSubMatrix(half, n, 0, half);
-    Matrix B22 = B.getSubMatrix(half, n, half, n);
+    Matrix B12 = B.getSubMatrix(0, half, half, B.cols);
+    Matrix B21 = B.getSubMatrix(half, B.rows, 0, half);
+    Matrix B22 = B.getSubMatrix(half, B.rows, half, B.cols);
     
     // 计算Strassen算法所需的中间矩阵
     Matrix S1 = B12 - B22;
@@ -344,6 +372,11 @@ Matrix strassenMultiply(const Matrix& A, const Matrix& B) {
  * @return 两个矩阵相乘的结果
  */
 Matrix standardMultiply(const Matrix& A, const Matrix& B) {
+    // 检查矩阵维度是否匹配
+    if (A.cols != B.rows) {
+        throw std::invalid_argument("Matrix dimensions do not match for multiplication");
+    }
+    
     int rows = A.rows;
     int cols = B.cols;
     int inner = A.cols;
@@ -451,9 +484,9 @@ int main() {
     
     // 验证Strassen算法结果是否正确
     bool strassenCorrect = true;
-    for (int i = 0; i < A.rows; i++) {
-        for (int j = 0; j < A.cols; j++) {
-            if (abs(standardResult.data[i][j] - strassenResult.data[i][j]) > 1e-9) {
+    for (int i = 0; i < standardResult.rows; i++) {
+        for (int j = 0; j < standardResult.cols; j++) {
+            if (std::abs(standardResult.data[i][j] - strassenResult.data[i][j]) > 1e-9) {
                 strassenCorrect = false;
                 break;
             }
@@ -463,9 +496,9 @@ int main() {
     
     // 验证CW算法结果是否正确
     bool cwCorrect = true;
-    for (int i = 0; i < A.rows; i++) {
-        for (int j = 0; j < A.cols; j++) {
-            if (abs(standardResult.data[i][j] - cwResult.data[i][j]) > 1e-9) {
+    for (int i = 0; i < standardResult.rows; i++) {
+        for (int j = 0; j < standardResult.cols; j++) {
+            if (std::abs(standardResult.data[i][j] - cwResult.data[i][j]) > 1e-9) {
                 cwCorrect = false;
                 break;
             }
@@ -475,9 +508,9 @@ int main() {
     
     // 验证最新算法结果是否正确
     bool latestCorrect = true;
-    for (int i = 0; i < A.rows; i++) {
-        for (int j = 0; j < A.cols; j++) {
-            if (abs(standardResult.data[i][j] - latestResult.data[i][j]) > 1e-9) {
+    for (int i = 0; i < standardResult.rows; i++) {
+        for (int j = 0; j < standardResult.cols; j++) {
+            if (std::abs(standardResult.data[i][j] - latestResult.data[i][j]) > 1e-9) {
                 latestCorrect = false;
                 break;
             }

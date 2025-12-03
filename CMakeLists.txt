@@ -44,3 +44,8 @@ add_executable(cw_original
 add_executable(newest
         U4/P2_STRASSEN/others/newest.cpp
 )
+
+# 最新算法独立可执行文件
+add_executable(complete_latest
+        U4/P2_STRASSEN/others/complete_latest.cpp
+)
