@@ -49,3 +49,8 @@ add_executable(newest
 add_executable(complete_latest
         U4/P2_STRASSEN/others/complete_latest.cpp
 )
+
+# 雇佣问题独立可执行文件
+add_executable(employment_issues
+        U5/P1_EMPLOYMENT-ISSUES/EmploymentIssues.cpp
+)
