@@ -54,3 +54,8 @@ add_executable(complete_latest
 add_executable(employment_issues
         U5/P1_EMPLOYMENT-ISSUES/EmploymentIssues.cpp
 )
+
+# 生日悖论问题独立可执行文件
+add_executable(birthday_paradox
+        U5/P2_BIRTHDAY-PARADOX/BirthdayParadox.cpp
+)
