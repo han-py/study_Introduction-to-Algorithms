@@ -59,3 +59,8 @@ add_executable(employment_issues
 add_executable(birthday_paradox
         U5/P2_BIRTHDAY-PARADOX/BirthdayParadox.cpp
 )
+
+# 堆排序独立可执行文件
+add_executable(heap_sort
+        U6/HEAP-SORT/HeapSort.cpp
+)
