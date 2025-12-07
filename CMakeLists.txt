@@ -69,3 +69,8 @@ add_executable(heap_sort
 add_executable(priority_queue
         C2/U6/PRIORITY-QUEUE/PriorityQueue.cpp
 )
+
+# 快速排序独立可执行文件
+add_executable(quick_sort
+        C2/U7/QUICK-SORT/QuickSort.cpp
+)
