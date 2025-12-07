@@ -89,3 +89,8 @@ add_executable(counting_sort
 add_executable(radix_sort
         C2/U8/P2_RADIX-SORT/RadixSort.cpp
 )
+
+# 桶排序独立可执行文件
+add_executable(bucket_sort
+        C2/U8/P3_BUCKET-SORT/BucketSort.cpp
+)
