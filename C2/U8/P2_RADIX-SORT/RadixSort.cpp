@@ -7,6 +7,21 @@
 #include <algorithm>
 
 /**
+ * 打印数组元素
+ * @param arr 要打印的数组
+ * @param msg 打印信息
+ */
+void printArray(const std::vector<int>& arr, const std::string& msg = "") {
+    if (!msg.empty()) {
+        std::cout << msg;
+    }
+    for (size_t i = 0; i < arr.size(); i++) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+/**
  * 获取数字中指定位上的数字
  * @param num 数字
  * @param digit 位数（从右往左数，从1开始）
@@ -101,8 +116,7 @@ void radixSort(std::vector<int>& arr) {
     // 获取最大数的位数
     int maxDigits = getMaxDigits(arr);
     std::cout << "数组中最大数的位数: " << maxDigits << std::endl;
-    std::cout << "原数组: ";
-    printArray(arr);
+    printArray(arr, "原数组: ");
     std::cout << std::endl;
     
     // 对每一位进行计数排序
@@ -112,21 +126,6 @@ void radixSort(std::vector<int>& arr) {
         printArray(arr, "    排序后: ");
         std::cout << std::endl;
     }
-}
-
-/**
- * 打印数组元素
- * @param arr 要打印的数组
- * @param msg 打印信息
- */
-void printArray(const std::vector<int>& arr, const std::string& msg = "") {
-    if (!msg.empty()) {
-        std::cout << msg;
-    }
-    for (size_t i = 0; i < arr.size(); i++) {
-        std::cout << arr[i] << " ";
-    }
-    std::cout << std::endl;
 }
 
 /**
