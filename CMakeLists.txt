@@ -99,3 +99,8 @@ add_executable(bucket_sort
 add_executable(randomized_select
         C2/U9/RANDOMIZED-SELECT/RandomizedSelect.cpp
 )
+
+# 栈独立可执行文件
+add_executable(stack
+        C3/U10/STACK/Stack.cpp
+)
