@@ -84,3 +84,8 @@ add_executable(hoare_partition
 add_executable(counting_sort
         C2/U8/P1_COUNTING-SORT/CountingSort.cpp
 )
+
+# 基数排序独立可执行文件
+add_executable(radix_sort
+        C2/U8/P2_RADIX-SORT/RadixSort.cpp
+)
