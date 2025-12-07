@@ -109,3 +109,18 @@ add_executable(stack
 add_executable(queue
         C3/U10/QUEUE/Queue.cpp
 )
+
+# 单向链表独立可执行文件
+add_executable(singly_linked_list
+        C3/U10/LINKED-LIST/SinglyLinkedListTest.cpp
+)
+
+# 双向链表独立可执行文件
+add_executable(doubly_linked_list
+        C3/U10/LINKED-LIST/DoublyLinkedListTest.cpp
+)
+
+# 循环链表独立可执行文件
+add_executable(circular_linked_list
+        C3/U10/LINKED-LIST/CircularLinkedListTest.cpp
+)
