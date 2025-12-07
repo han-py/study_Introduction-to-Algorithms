@@ -64,3 +64,8 @@ add_executable(birthday_paradox
 add_executable(heap_sort
         U6/HEAP-SORT/HeapSort.cpp
 )
+
+# 优先队列独立可执行文件
+add_executable(priority_queue
+        U6/PRIORITY-QUEUE/PriorityQueue.cpp
+)
