@@ -104,3 +104,8 @@ add_executable(randomized_select
 add_executable(stack
         C3/U10/STACK/Stack.cpp
 )
+
+# 队列独立可执行文件
+add_executable(queue
+        C3/U10/QUEUE/Queue.cpp
+)
