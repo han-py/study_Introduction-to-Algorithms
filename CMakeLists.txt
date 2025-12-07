@@ -12,60 +12,60 @@ add_executable(study_Introduction_to_Algorithms
 
 # 插入排序独立可执行文件
 add_executable(insertion_sort
-        U2/INSERTION-SORT/InsertionSort.cpp
+        C1/U2/INSERTION-SORT/InsertionSort.cpp
 )
 
 # 冒泡排序独立可执行文件
 add_executable(bubble_sort
-        U2/BUBBLE-SORT/BubbleSort.cpp
+        C1/U2/BUBBLE-SORT/BubbleSort.cpp
 )
 
 # 最大子数组独立可执行文件
 add_executable(find_maximum_subarray
-        U4/P1_FIND-MAXIMUM-SUBARRAY/FindMaximumSubarray.cpp
+        C1/U4/P1_FIND-MAXIMUM-SUBARRAY/FindMaximumSubarray.cpp
 )
 
 # Strassen算法独立可执行文件
 add_executable(strassen
-        U4/P2_STRASSEN/Strassen.cpp
+        C1/U4/P2_STRASSEN/Strassen.cpp
 )
 
 # Coppersmith-Winograd算法独立可执行文件
 add_executable(coppersmith_winograd
-        U4/P2_STRASSEN/others/Coppersmith-Winograd.cpp
+        C1/U4/P2_STRASSEN/others/Coppersmith-Winograd.cpp
 )
 
 # 原始Coppersmith-Winograd算法独立可执行文件
 add_executable(cw_original
-        U4/P2_STRASSEN/others/CW-original.cpp
+        C1/U4/P2_STRASSEN/others/CW-original.cpp
 )
 
 # 最新算法独立可执行文件
 add_executable(newest
-        U4/P2_STRASSEN/others/newest.cpp
+        C1/U4/P2_STRASSEN/others/newest.cpp
 )
 
 # 最新算法独立可执行文件
 add_executable(complete_latest
-        U4/P2_STRASSEN/others/complete_latest.cpp
+        C1/U4/P2_STRASSEN/others/complete_latest.cpp
 )
 
 # 雇佣问题独立可执行文件
 add_executable(employment_issues
-        U5/P1_EMPLOYMENT-ISSUES/EmploymentIssues.cpp
+        C1/U5/P1_EMPLOYMENT-ISSUES/EmploymentIssues.cpp
 )
 
 # 生日悖论问题独立可执行文件
 add_executable(birthday_paradox
-        U5/P2_BIRTHDAY-PARADOX/BirthdayParadox.cpp
+        C1/U5/P2_BIRTHDAY-PARADOX/BirthdayParadox.cpp
 )
 
 # 堆排序独立可执行文件
 add_executable(heap_sort
-        U6/HEAP-SORT/HeapSort.cpp
+        C2/U6/HEAP-SORT/HeapSort.cpp
 )
 
 # 优先队列独立可执行文件
 add_executable(priority_queue
-        U6/PRIORITY-QUEUE/PriorityQueue.cpp
+        C2/U6/PRIORITY-QUEUE/PriorityQueue.cpp
 )

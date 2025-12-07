@@ -108,7 +108,7 @@ return UnpadMatrix(result, n)
 
 ## 6. C++ 代码实现
 
-详见 [CW-original.cpp](./CW-original.cpp) 文件。
+详见 [CW-original.cpp](CW-original.cpp) 文件。
 
 ## 7. 算法分析
 
