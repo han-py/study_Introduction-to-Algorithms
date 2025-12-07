@@ -94,3 +94,8 @@ add_executable(radix_sort
 add_executable(bucket_sort
         C2/U8/P3_BUCKET-SORT/BucketSort.cpp
 )
+
+# Randomized选择独立可执行文件
+add_executable(randomized_select
+        C2/U9/RANDOMIZED-SELECT/RandomizedSelect.cpp
+)
