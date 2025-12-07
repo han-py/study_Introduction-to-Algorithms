@@ -79,3 +79,8 @@ add_executable(quick_sort
 add_executable(hoare_partition
         C2/U7/HOARE-PARTITION/HoarePartition.cpp
 )
+
+# 计数排序独立可执行文件
+add_executable(counting_sort
+        C2/U8/P1_COUNTING-SORT/CountingSort.cpp
+)
