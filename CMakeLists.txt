@@ -74,3 +74,8 @@ add_executable(priority_queue
 add_executable(quick_sort
         C2/U7/QUICK-SORT/QuickSort.cpp
 )
+
+# Hoare划分独立可执行文件
+add_executable(hoare_partition
+        C2/U7/HOARE-PARTITION/HoarePartition.cpp
+)
