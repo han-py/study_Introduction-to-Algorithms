@@ -231,6 +231,10 @@ public:
 };
 
 int main() {
+#ifdef ACM_LOCAL
+    freopen("data.in", "r", stdin);
+    freopen("data.out", "w", stdout);
+#endif
     RedBlackTree tree;
     
     cout << "红黑树示例程序\n";
