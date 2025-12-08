@@ -154,3 +154,8 @@ add_executable(C3-U13-red_black_tree
 add_executable(C3-U14-augmented_red_black_tree
         C3/U14/AUGMENTED-RED-BLACK-TREE/AugmentedRedBlackTree.cpp
 )
+
+# 钢条切割独立可执行文件
+add_executable(C4-U15-P1-steel_bar_cutting
+        C4/U15/P1_STEEL-BAR-CUTTING/SteelBarCutting.cpp
+)
