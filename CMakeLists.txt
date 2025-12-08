@@ -134,3 +134,8 @@ add_executable(pointer_and_object
 add_executable(tree
         C3/U10/TREE/Tree.cpp
 )
+
+# 散列表独立可执行文件
+add_executable(hash_table
+        C3/U11/HASH-TABLE/HashTable.cpp
+)
