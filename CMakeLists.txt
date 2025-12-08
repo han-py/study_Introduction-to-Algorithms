@@ -139,3 +139,8 @@ add_executable(tree
 add_executable(hash_table
         C3/U11/HASH-TABLE/HashTable.cpp
 )
+
+# 二叉搜索树独立可执行文件
+add_executable(binary_search_tree
+        C3/U12/BINARY-SEARCH-TREE/BinarySearchTree.cpp
+)
