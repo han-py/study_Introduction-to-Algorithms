@@ -124,3 +124,8 @@ add_executable(doubly_linked_list
 add_executable(circular_linked_list
         C3/U10/LINKED-LIST/CircularLinkedListTest.cpp
 )
+
+# 指针和对象独立可执行文件
+add_executable(pointer_and_object
+        C3/U10/POINTER-AND-OBJECT/PointerAndObject.cpp
+)
