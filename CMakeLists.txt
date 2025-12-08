@@ -149,3 +149,8 @@ add_executable(C3-U12-binary_search_tree
 add_executable(C3-U13-red_black_tree
         C3/U13/RED-BLACK-TREE/RedBlackTree.cpp
 )
+
+# C3-U14
+add_executable(C3-U14-augmented_red_black_tree
+        C3/U14/AUGMENTED-RED-BLACK-TREE/AugmentedRedBlackTree.cpp
+)
