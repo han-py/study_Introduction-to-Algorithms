@@ -129,3 +129,8 @@ add_executable(circular_linked_list
 add_executable(pointer_and_object
         C3/U10/POINTER-AND-OBJECT/PointerAndObject.cpp
 )
+
+# 树独立可执行文件
+add_executable(tree
+        C3/U10/TREE/Tree.cpp
+)
