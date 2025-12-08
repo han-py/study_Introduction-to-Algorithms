@@ -144,3 +144,8 @@ add_executable(C3-U11-hash_table
 add_executable(C3-U12-binary_search_tree
         C3/U12/BINARY-SEARCH-TREE/BinarySearchTree.cpp
 )
+
+# C3-U13
+add_executable(C3-U13-red_black_tree
+        C3/U13/RedBlackTree.cpp
+)
