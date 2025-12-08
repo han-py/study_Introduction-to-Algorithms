@@ -159,3 +159,8 @@ add_executable(C3-U14-augmented_red_black_tree
 add_executable(C4-U15-P1-steel_bar_cutting
         C4/U15/P1_STEEL-BAR-CUTTING/SteelBarCutting.cpp
 )
+
+# 矩阵链乘独立可执行文件
+add_executable(C4-U15-P2-matrix_chain_multiplication
+        C4/U15/P2_MATRIX-CHAIN-MULTIPLICATION/MatrixChainMultiplication.cpp
+)
