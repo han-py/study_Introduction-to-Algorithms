@@ -5,40 +5,62 @@
 /**
  * 有根树的表示
  * 根据《算法导论》第10章内容实现
+ * 
+ * 本程序实现了两种有根树的表示方法：
+ * 1. 二叉树表示法：每个节点最多有两个子节点
+ * 2. 左孩子右兄弟表示法：可以表示任意有根树
  */
 
 // 二叉树节点结构
 struct BinaryTreeNode {
-    int key;
-    BinaryTreeNode* parent;
-    BinaryTreeNode* left;
-    BinaryTreeNode* right;
+    int key;                 // 节点存储的数据
+    BinaryTreeNode* parent;  // 指向父节点的指针
+    BinaryTreeNode* left;    // 指向左子节点的指针
+    BinaryTreeNode* right;   // 指向右子节点的指针
     
+    /**
+     * 构造函数
+     * @param k 节点的键值
+     */
     BinaryTreeNode(int k) : key(k), parent(nullptr), left(nullptr), right(nullptr) {}
 };
 
 // 任意有根树节点结构（左孩子右兄弟表示法）
 struct TreeNode {
-    int key;
-    TreeNode* parent;
-    TreeNode* leftChild;     // 最左边的孩子
-    TreeNode* rightSibling;   // 右侧相邻的兄弟
+    int key;                    // 节点存储的数据
+    TreeNode* parent;           // 指向父节点的指针
+    TreeNode* leftChild;        // 指向最左边的孩子节点的指针
+    TreeNode* rightSibling;      // 指向右侧相邻的兄弟节点的指针
     
+    /**
+     * 构造函数
+     * @param k 节点的键值
+     */
     TreeNode(int k) : key(k), parent(nullptr), leftChild(nullptr), rightSibling(nullptr) {}
 };
 
 // 二叉树类
 class BinaryTree {
 private:
-    BinaryTreeNode* root;
+    BinaryTreeNode* root;  // 指向根节点的指针
     
 public:
+    /**
+     * 构造函数，初始化空树
+     */
     BinaryTree() : root(nullptr) {}
     
+    /**
+     * 析构函数，释放整棵树的内存
+     */
     ~BinaryTree() {
         destroyTree(root);
     }
     
+    /**
+     * 递归销毁整棵树
+     * @param node 要销毁的节点
+     */
     void destroyTree(BinaryTreeNode* node) {
         if (node) {
             destroyTree(node->left);
@@ -48,7 +70,9 @@ public:
     }
     
     /**
-     * 创建二叉树节点
+     * 创建一个新的二叉树节点
+     * @param key 节点的键值
+     * @return 指向新创建节点的指针
      */
     BinaryTreeNode* createNode(int key) {
         return new BinaryTreeNode(key);
@@ -56,6 +80,7 @@ public:
     
     /**
      * 设置根节点
+     * @param node 新的根节点
      */
     void setRoot(BinaryTreeNode* node) {
         root = node;
@@ -66,13 +91,15 @@ public:
     
     /**
      * 获取根节点
+     * @return 指向根节点的指针
      */
     BinaryTreeNode* getRoot() const {
         return root;
     }
     
     /**
-     * 中序遍历
+     * 中序遍历（左-根-右）
+     * @param node 遍历的起始节点
      */
     void inorderTraversal(BinaryTreeNode* node) const {
         if (node) {
@@ -83,7 +110,8 @@ public:
     }
     
     /**
-     * 前序遍历
+     * 前序遍历（根-左-右）
+     * @param node 遍历的起始节点
      */
     void preorderTraversal(BinaryTreeNode* node) const {
         if (node) {
@@ -94,7 +122,8 @@ public:
     }
     
     /**
-     * 后序遍历
+     * 后序遍历（左-右-根）
+     * @param node 遍历的起始节点
      */
     void postorderTraversal(BinaryTreeNode* node) const {
         if (node) {
@@ -105,7 +134,7 @@ public:
     }
     
     /**
-     * 层序遍历
+     * 层序遍历（广度优先遍历）
      */
     void levelOrderTraversal() const {
         if (!root) return;
@@ -119,6 +148,7 @@ public:
             
             std::cout << current->key << " ";
             
+            // 将左右子节点加入队列
             if (current->left) {
                 q.push(current->left);
             }
@@ -133,15 +163,25 @@ public:
 // 任意有根树类（左孩子右兄弟表示法）
 class RootedTree {
 private:
-    TreeNode* root;
+    TreeNode* root;  // 指向根节点的指针
     
 public:
+    /**
+     * 构造函数，初始化空树
+     */
     RootedTree() : root(nullptr) {}
     
+    /**
+     * 析构函数，释放整棵树的内存
+     */
     ~RootedTree() {
         destroyTree(root);
     }
     
+    /**
+     * 递归销毁整棵树
+     * @param node 要销毁的节点
+     */
     void destroyTree(TreeNode* node) {
         if (node) {
             // 先销毁所有兄弟节点
@@ -154,7 +194,9 @@ public:
     }
     
     /**
-     * 创建树节点
+     * 创建一个新的树节点
+     * @param key 节点的键值
+     * @return 指向新创建节点的指针
      */
     TreeNode* createNode(int key) {
         return new TreeNode(key);
@@ -162,6 +204,7 @@ public:
     
     /**
      * 设置根节点
+     * @param node 新的根节点
      */
     void setRoot(TreeNode* node) {
         root = node;
@@ -172,6 +215,7 @@ public:
     
     /**
      * 获取根节点
+     * @return 指向根节点的指针
      */
     TreeNode* getRoot() const {
         return root;
@@ -179,6 +223,7 @@ public:
     
     /**
      * 前序遍历（深度优先）
+     * @param node 遍历的起始节点
      */
     void preorderTraversal(TreeNode* node) const {
         if (node) {
@@ -198,6 +243,7 @@ public:
     
     /**
      * 后序遍历（深度优先）
+     * @param node 遍历的起始节点
      */
     void postorderTraversal(TreeNode* node) const {
         if (node) {
@@ -230,7 +276,7 @@ public:
             
             std::cout << current->key << " ";
             
-            // 将所有兄弟节点加入队列
+            // 将所有兄弟节点依次输出
             TreeNode* sibling = current->rightSibling;
             while (sibling) {
                 std::cout << sibling->key << " ";
@@ -246,7 +292,9 @@ public:
     }
     
     /**
-     * 计算树的高度
+     * 计算以指定节点为根的子树的高度
+     * @param node 子树的根节点
+     * @return 子树的高度
      */
     int getHeight(TreeNode* node) const {
         if (!node) return -1;
@@ -267,7 +315,9 @@ public:
     }
     
     /**
-     * 计算节点数量
+     * 计算以指定节点为根的子树的节点数量
+     * @param node 子树的根节点
+     * @return 子树的节点数量
      */
     int getNodeCount(TreeNode* node) const {
         if (!node) return 0;
@@ -287,6 +337,29 @@ public:
         }
         
         return count;
+    }
+    
+    /**
+     * 查找具有指定键值的节点
+     * @param node 搜索起始节点
+     * @param key 要查找的键值
+     * @return 找到的节点指针，未找到返回nullptr
+     */
+    TreeNode* searchNode(TreeNode* node, int key) const {
+        if (!node) return nullptr;
+        
+        if (node->key == key) {
+            return node;
+        }
+        
+        // 在子节点中查找
+        TreeNode* result = searchNode(node->leftChild, key);
+        if (result) {
+            return result;
+        }
+        
+        // 在兄弟节点中查找
+        return searchNode(node->rightSibling, key);
     }
 };
 
@@ -397,6 +470,14 @@ int main() {
     
     std::cout << "树的高度: " << rootedTree.getHeight(rootedTree.getRoot()) << std::endl;
     std::cout << "节点总数: " << rootedTree.getNodeCount(rootedTree.getRoot()) << std::endl;
+    
+    // 演示节点查找
+    TreeNode* found = rootedTree.searchNode(rootedTree.getRoot(), 7);
+    if (found) {
+        std::cout << "找到了节点7" << std::endl;
+    } else {
+        std::cout << "未找到节点7" << std::endl;
+    }
     
     return 0;
 }
