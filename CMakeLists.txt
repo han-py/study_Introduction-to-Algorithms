@@ -35,6 +35,11 @@ add_executable(C1-U4-P1-P1_maximum_subarray_product
         C1/U4/P1_FIND-MAXIMUM-SUBARRAY/VariantIssue/P1_MAXIMUM-SUBARRAY-PRODUCT/MaximumSubarrayProduct.cpp
 )
 
+# 环形数组中的最大子数组独立可执行文件
+add_executable(C1-U4-P1-P2_maximum_subarray_in_a_circular_array
+        C1/U4/P1_FIND-MAXIMUM-SUBARRAY/VariantIssue/P2_MAXIMUM-SUBARRAY-IN-A-CIRCULAR-ARRAY/MaximumSubarrayInACircularArray.cpp
+)
+
 # Strassen算法独立可执行文件
 add_executable(C1-U4-P2_strassen
         C1/U4/P2_STRASSEN/Strassen.cpp
