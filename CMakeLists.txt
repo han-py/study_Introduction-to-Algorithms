@@ -189,3 +189,8 @@ add_executable(C4-U15-P2-matrix_chain_multiplication
 add_executable(C4-U15-P3-longest_common_subsequence
         C4/U15/P3_LONGEST-COMMON-SUBSEQUENCE/LongestCommonSubsequence.cpp
 )
+
+# 最优二叉搜索树独立可执行文件
+add_executable(C4-U15-P4-optimal_binary_search_tree
+        C4/U15/P4_OPTIMAL-BINARY-SEARCH-TREE/OptimalBinarySearchTree.cpp
+)
