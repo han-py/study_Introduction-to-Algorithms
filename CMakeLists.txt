@@ -25,6 +25,11 @@ add_executable(C1-U4-P1_find_maximum_subarray
         C1/U4/P1_FIND-MAXIMUM-SUBARRAY/FindMaximumSubarray.cpp
 )
 
+# Kadane算法独立可执行文件
+add_executable(C1-U4-P1_kadane
+        C1/U4/P1_FIND-MAXIMUM-SUBARRAY/Kadane.cpp
+)
+
 # Strassen算法独立可执行文件
 add_executable(C1-U4-P2_strassen
         C1/U4/P2_STRASSEN/Strassen.cpp
