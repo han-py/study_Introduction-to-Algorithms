@@ -30,6 +30,11 @@ add_executable(C1-U4-P1_kadane
         C1/U4/P1_FIND-MAXIMUM-SUBARRAY/Kadane.cpp
 )
 
+# 最大子数组乘积独立可执行文件
+add_executable(C1-U4-P1-P1_maximum_subarray_product
+        C1/U4/P1_FIND-MAXIMUM-SUBARRAY/VariantIssue/P1_MAXIMUM-SUBARRAY-PRODUCT/MaximumSubarrayProduct.cpp
+)
+
 # Strassen算法独立可执行文件
 add_executable(C1-U4-P2_strassen
         C1/U4/P2_STRASSEN/Strassen.cpp
