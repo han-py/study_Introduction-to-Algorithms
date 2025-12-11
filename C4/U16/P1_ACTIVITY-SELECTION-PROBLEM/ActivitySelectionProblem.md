@@ -22,10 +22,19 @@
 
 ## 3. 算法步骤
 
+### 3.1 迭代贪心算法
+
 1. **排序阶段**：将所有活动按照结束时间非递减顺序排列
 2. **初始化**：选择第一个活动（结束时间最早的活动）
 3. **迭代选择**：对于剩余的活动，如果某个活动的开始时间不早于上一个选中活动的结束时间，则选择该活动
 4. **终止条件**：遍历完所有活动后算法结束
+
+### 3.2 递归贪心算法
+
+1. **排序阶段**：将所有活动按照结束时间非递减顺序排列
+2. **基础情况**：如果没有更多活动可选，返回空集合
+3. **递归选择**：选择与当前活动兼容的第一个活动，然后递归地在剩余活动中选择
+4. **合并结果**：将当前选择的活动与递归结果合并
 
 ## 4. 算法图解示例
 
@@ -76,8 +85,10 @@
 
 ## 5. 伪代码实现
 
+### 5.1 迭代贪心算法
+
 ```
-ACTIVITY-SELECTOR(s, f)
+ITERATIVE-ACTIVITY-SELECTOR(s, f)
 1.  n = s.length
 2.  let A be a new empty set
 3.  A = A ∪ {a₁}
@@ -87,7 +98,11 @@ ACTIVITY-SELECTOR(s, f)
 7.          A = A ∪ {aᵢ}
 8.          j = i
 9.  return A
+```
 
+### 5.2 递归贪心算法
+
+```
 RECURSIVE-ACTIVITY-SELECTOR(s, f, k, n)
 1.  m = k + 1
 2.  while m ≤ n and sₘ < fₖ
@@ -99,37 +114,17 @@ RECURSIVE-ACTIVITY-SELECTOR(s, f, k, n)
 
 ## 6. C++代码实现
 
+### 6.1 迭代贪心算法实现
+
 ```cpp
 /**
- * 活动结构体，表示一个活动
- */
-struct Activity {
-    int id;          // 活动编号
-    int startTime;   // 开始时间
-    int finishTime;  // 结束时间
-    
-    // 构造函数
-    Activity(int id, int start, int finish) : id(id), startTime(start), finishTime(finish) {}
-};
-
-/**
- * 比较函数，用于按结束时间排序
- * @param a 第一个活动
- * @param b 第二个活动
- * @return 如果a的结束时间小于b的结束时间，则返回true
- */
-bool compareActivities(const Activity& a, const Activity& b) {
-    return a.finishTime < b.finishTime;
-}
-
-/**
- * 活动选择算法（贪心算法）
+ * 迭代贪心算法实现活动选择问题
  * 选择最多数量的兼容活动
  * 
  * @param activities 活动集合
  * @return 选中的活动集合
  */
-std::vector<Activity> activitySelection(std::vector<Activity>& activities) {
+std::vector<Activity> iterativeActivitySelection(std::vector<Activity>& activities) {
     // 步骤1：按结束时间排序
     std::sort(activities.begin(), activities.end(), compareActivities);
     
@@ -158,18 +153,83 @@ std::vector<Activity> activitySelection(std::vector<Activity>& activities) {
 }
 ```
 
+### 6.2 递归贪心算法实现
+
+```cpp
+/**
+ * 递归贪心算法实现活动选择问题
+ * 
+ * @param activities 按结束时间排序的活动集合
+ * @param k 上一个选中的活动索引
+ * @param n 活动总数
+ * @return 选中的活动集合
+ */
+std::vector<Activity> recursiveActivitySelection(const std::vector<Activity>& activities, int k, int n) {
+    // 寻找第一个与活动k兼容的活动
+    int m = k + 1;
+    while (m < n && activities[m].startTime < activities[k].finishTime) {
+        m++;
+    }
+    
+    // 如果找到了兼容活动
+    if (m < n) {
+        std::cout << "选择活动 " << activities[m].id << " (时间: " << activities[m].startTime 
+                  << "-" << activities[m].finishTime << ")" << std::endl;
+        
+        // 递归选择后续活动
+        std::vector<Activity> result = recursiveActivitySelection(activities, m, n);
+        result.push_back(activities[m]);
+        return result;
+    } else {
+        // 没有更多兼容活动
+        return std::vector<Activity>();
+    }
+}
+
+/**
+ * 递归贪心算法的包装函数
+ * 
+ * @param activities 活动集合
+ * @return 选中的活动集合
+ */
+std::vector<Activity> recursiveActivitySelectionWrapper(std::vector<Activity>& activities) {
+    // 按结束时间排序
+    std::sort(activities.begin(), activities.end(), compareActivities);
+    
+    // 创建结果容器
+    std::vector<Activity> selected;
+    
+    // 选择第一个活动
+    std::cout << "选择活动 " << activities[0].id << " (时间: " << activities[0].startTime 
+              << "-" << activities[0].finishTime << ")" << std::endl;
+    selected.push_back(activities[0]);
+    
+    // 递归选择其余活动
+    std::vector<Activity> recursiveResult = recursiveActivitySelection(activities, 0, activities.size());
+    
+    // 将递归结果添加到选中活动中
+    for (int i = recursiveResult.size() - 1; i >= 0; i--) {
+        selected.push_back(recursiveResult[i]);
+    }
+    
+    return selected;
+}
+```
+
 ## 7. 算法分析
 
 ### 7.1 时间复杂度
 
 - **排序阶段**：O(n log n)，使用快速排序或其他高效排序算法
-- **选择阶段**：O(n)，只需遍历一次活动列表
+- **迭代选择阶段**：O(n)，只需遍历一次活动列表
+- **递归选择阶段**：O(n)，每个活动最多被访问一次
 - **总体时间复杂度**：O(n log n)
 
 ### 7.2 空间复杂度
 
 - **排序所需空间**：O(log n)，排序算法所需的辅助空间
 - **存储选中活动**：O(k)，k为选中活动的数量
+- **递归调用栈**：O(n)，最坏情况下递归深度为n
 - **总体空间复杂度**：O(n)
 
 ### 7.3 稳定性
@@ -178,14 +238,23 @@ std::vector<Activity> activitySelection(std::vector<Activity>& activities) {
 
 ## 8. 算法特点
 
-### 8.1 优点
+### 8.1 迭代算法 vs 递归算法
+
+| 特性 | 迭代算法 | 递 归算法 |
+|-----|---------|----------|
+| 实现难度 | 简单 | 中等 |
+| 内存使用 | 较少(O(1)栈空间) | 较多(O(n)栈空间) |
+| 可读性 | 清晰直观 | 逻辑稍复杂 |
+| 性能 | 更好 | 略差(函数调用开销) |
+
+### 8.2 优点
 
 1. **简单高效**：算法思路清晰，易于理解和实现
 2. **时间复杂度低**：O(n log n)的时间复杂度在大多数情况下是可以接受的
 3. **贪心策略有效**：局部最优选择能导致全局最优解
 4. **实用性强**：可以解决许多现实生活中的调度问题
 
-### 8.2 缺点
+### 8.3 缺点
 
 1. **仅考虑活动数量**：只关注选择活动的数量，不考虑活动的重要性或其他权重因素
 2. **无法处理复杂约束**：对于有复杂约束条件的问题，基本算法可能不适用
@@ -225,4 +294,4 @@ std::vector<Activity> activitySelection(std::vector<Activity>& activities) {
 
 通过本文的介绍，我们不仅学习了活动选择问题的基本概念和算法实现，还了解了其时间复杂度分析、适用场景以及与其他算法的比较。掌握这类贪心算法对于解决实际生活中的调度和优化问题具有重要意义。
 
-在实际应用中，我们可以根据具体需求对基本算法进行改进和扩展，以适应各种复杂的约束条件。
+在实际应用中，我们可以根据具体需求对基本算法进行改进和扩展，以适应各种复杂的约束条件。无论是使用迭代还是递归的方式实现，都能得到正确的结果，选择哪种实现方式取决于具体的应用场景和性能要求。
