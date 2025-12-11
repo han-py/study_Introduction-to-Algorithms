@@ -204,3 +204,8 @@ add_executable(C4-U16-P1-activity_selection
 add_executable(C4-U16-P2-0_1_knapsack_problem
         C4/U16/P2_0-1-KNAPSACK-PROBLEM/0-1KnapsackProblem.cpp
 )
+
+# 赫夫曼编码独立可执行文件
+add_executable(C4-U16-P3-huffman_coding
+        C4/U16/P3_HUFFMAN-CODING/HuffmanCoding.cpp
+)
