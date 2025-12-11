@@ -199,3 +199,8 @@ add_executable(C4-U15-P4-optimal_binary_search_tree
 add_executable(C4-U16-P1-activity_selection
         C4/U16/P1_ACTIVITY-SELECTION-PROBLEM/ActivitySelectionProblem.cpp
 )
+
+# 0-1背包独立可执行文件
+add_executable(C4-U16-P2-0_1_knapsack_problem
+        C4/U16/P2_0-1-KNAPSACK-PROBLEM/0-1KnapsackProblem.cpp
+)
