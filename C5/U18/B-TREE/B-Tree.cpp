@@ -519,6 +519,10 @@ void demonstrateBTree() {
 }
 
 int main() {
+#ifdef ACM_LOCAL
+    freopen("data.in", "r", stdin);
+    freopen("data.out", "w", stdout);
+#endif
     demonstrateBTree();
     
     return 0;
