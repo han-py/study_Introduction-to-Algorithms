@@ -219,3 +219,8 @@ add_executable(C4-U16-P4-matroid_and_greedy_algorithm
 add_executable(C4-U16-P5-solving_task_scheduling_problems_using_matroids
         C4/U16/P5_SOLVING-TASK-SCHEDULING-PROBLEMS-USING-MATROIDS/SolvingTaskSchedulingProblemsUsingMatroids.cpp
 )
+
+# 聚合分析独立可执行文件
+add_executable(C4-U17-P1-aggregate_analysis
+        C4/U17/P1_AGGREGATE-ANALYSIS/AggregateAnalysis.cpp
+)
