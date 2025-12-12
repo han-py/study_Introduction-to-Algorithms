@@ -214,3 +214,8 @@ add_executable(C4-U16-P3-huffman_coding
 add_executable(C4-U16-P4-matroid_and_greedy_algorithm
         C4/U16/P4_MATROID-AND-GREEDY-ALGORITHM/MatroidAndGreedyAlgorithm.cpp
 )
+
+# 用拟阵求解任务调度问题独立可执行文件
+add_executable(C4-U16-P5-solving_task_scheduling_problems_using_matroids
+        C4/U16/P5_SOLVING-TASK-SCHEDULING-PROBLEMS-USING-MATROIDS/SolvingTaskSchedulingProblemsUsingMatroids.cpp
+)
