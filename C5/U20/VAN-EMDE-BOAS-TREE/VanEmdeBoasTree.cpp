@@ -32,10 +32,16 @@ public:
     int universeSize() const { return u; }
 
     // 获取最小值
-    int minimum() const { return min; }
+    int minimum() const { 
+        std::cout << "  获取最小值: " << (min == -1 ? -1 : min) << std::endl;
+        return min; 
+    }
 
     // 获取最大值
-    int maximum() const { return max; }
+    int maximum() const { 
+        std::cout << "  获取最大值: " << (max == -1 ? -1 : max) << std::endl;
+        return max; 
+    }
 
     // 检查值是否存在
     bool member(int x);
@@ -58,17 +64,24 @@ public:
 private:
     // 高位函数
     int high(int x) const {
-        return x / static_cast<int>(std::sqrt(u));
+        int result = x / static_cast<int>(std::sqrt(u));
+        std::cout << "    high(" << x << ") = " << x << " / " << static_cast<int>(std::sqrt(u)) << " = " << result << std::endl;
+        return result;
     }
 
     // 低位函数
     int low(int x) const {
-        return x % static_cast<int>(std::sqrt(u));
+        int result = x % static_cast<int>(std::sqrt(u));
+        std::cout << "    low(" << x << ") = " << x << " % " << static_cast<int>(std::sqrt(u)) << " = " << result << std::endl;
+        return result;
     }
 
     // 索引函数
     int index(int x, int y) const {
-        return x * static_cast<int>(std::sqrt(u)) + y;
+        int sqrt_u = static_cast<int>(std::sqrt(u));
+        int result = x * sqrt_u + y;
+        std::cout << "    index(" << x << ", " << y << ") = " << x << " * " << sqrt_u << " + " << y << " = " << result << std::endl;
+        return result;
     }
 
     // 创建空的vEB树
@@ -80,20 +93,24 @@ private:
 
 // 构造函数
 VanEmdeBoasTree::VanEmdeBoasTree(int universe_size) : u(universe_size), min(-1), max(-1), summary(nullptr) {
-    std::cout << "创建大小为 " << u << " 的van Emde Boas树" << std::endl;
+    std::cout << "\n>>> 创建大小为 " << u << " 的van Emde Boas树 <<<" << std::endl;
     
     if (u > 2) {
         int sqrt_u = static_cast<int>(std::sqrt(u));
+        std::cout << "  √u = " << sqrt_u << "，将创建 " << sqrt_u << " 个簇" << std::endl;
         cluster.resize(sqrt_u);
         for (int i = 0; i < sqrt_u; i++) {
             cluster[i] = nullptr;
         }
         summary = nullptr;
+    } else {
+        std::cout << "  基础情况 u=" << u << "，无需创建簇和摘要" << std::endl;
     }
 }
 
 // 析构函数
 VanEmdeBoasTree::~VanEmdeBoasTree() {
+    std::cout << "销毁大小为 " << u << " 的van Emde Boas树..." << std::endl;
     if (u > 2) {
         delete summary;
         for (int i = 0; i < static_cast<int>(cluster.size()); i++) {
@@ -104,20 +121,22 @@ VanEmdeBoasTree::~VanEmdeBoasTree() {
 
 // 检查值是否存在
 bool VanEmdeBoasTree::member(int x) {
-    std::cout << "  检查元素 " << x << " 是否存在..." << std::endl;
+    std::cout << "\n--- 检查元素 " << x << " 是否存在 ---" << std::endl;
     
     if (x == min || x == max) {
-        std::cout << "    元素 " << x << " 是最小值或最大值，存在" << std::endl;
+        std::cout << "    元素 " << x << " 是最小值(" << min << ")或最大值(" << max << ")，存在" << std::endl;
         return true;
     } else if (u <= 2) {
-        std::cout << "    基础情况，元素 " << x << " 不存在" << std::endl;
+        std::cout << "    基础情况(u=" << u << ")，元素 " << x << " 不存在" << std::endl;
         return false;
     } else {
+        std::cout << "    递归情况(u=" << u << ")" << std::endl;
         int cluster_index = high(x);
         int pos = low(x);
-        std::cout << "    检查簇 " << cluster_index << " 中位置 " << pos << std::endl;
+        std::cout << "    元素 " << x << " 属于簇 " << cluster_index << "，位置 " << pos << std::endl;
         
         if (cluster[cluster_index] != nullptr) {
+            std::cout << "    簇 " << cluster_index << " 存在，递归检查..." << std::endl;
             bool result = cluster[cluster_index]->member(pos);
             std::cout << "    元素 " << x << (result ? " 存在" : " 不存在") << std::endl;
             return result;
@@ -150,8 +169,10 @@ void VanEmdeBoasTree::insert(int x) {
             cluster[cluster_index] = makeEmptyVEBTree(static_cast<int>(std::sqrt(u)));
             
             if (summary == nullptr) {
+                std::cout << "    摘要为空，创建新摘要" << std::endl;
                 summary = makeEmptyVEBTree(static_cast<int>(std::sqrt(u)));
             }
+            std::cout << "    在摘要中插入簇索引 " << cluster_index << std::endl;
             summary->insert(cluster_index);
         }
         
@@ -176,13 +197,17 @@ void VanEmdeBoasTree::remove(int x) {
         min = max = -1;
         return;
     } else if (u <= 2) {
+        std::cout << "  基础情况(u=" << u << ")" << std::endl;
         if (x == 0 && min == 0) {
+            std::cout << "    删除元素0，最小值更新为1" << std::endl;
             min = 1;
         } else if (x == 1 && min == 1) {
+            std::cout << "    删除元素1，最小值更新为0" << std::endl;
             min = 0;
         }
         
         if (min == max) {
+            std::cout << "    删除后树变为空" << std::endl;
             min = max = -1;
         }
         
@@ -241,9 +266,10 @@ void VanEmdeBoasTree::remove(int x) {
 
 // 查找后继
 int VanEmdeBoasTree::successor(int x) {
-    std::cout << "  查找元素 " << x << " 的后继..." << std::endl;
+    std::cout << "\n--- 查找元素 " << x << " 的后继 ---" << std::endl;
     
     if (u <= 2) {
+        std::cout << "  基础情况(u=" << u << ")" << std::endl;
         if (x == 0 && max == 1) {
             std::cout << "    基础情况，元素0的后继是1" << std::endl;
             return 1;
@@ -252,26 +278,35 @@ int VanEmdeBoasTree::successor(int x) {
             return -1;
         }
     } else if (min != -1 && x < min) {
-        std::cout << "    元素 " << x << " 小于最小值 " << min << "，后继就是最小值" << std::endl;
+        std::cout << "  元素 " << x << " 小于最小值 " << min << "，后继就是最小值" << std::endl;
         return min;
     } else {
+        std::cout << "  递归情况(u=" << u << ")" << std::endl;
         int cluster_index = high(x);
         int pos = low(x);
+        std::cout << "  元素 " << x << " 属于簇 " << cluster_index << "，位置 " << pos << std::endl;
         int max_low = -1;
         
         if (cluster[cluster_index] != nullptr) {
             max_low = cluster[cluster_index]->maximum();
         }
+        std::cout << "  簇 " << cluster_index << " 的最大值为 " << max_low << std::endl;
         
         if (max_low != -1 && pos < max_low) {
             std::cout << "    在簇 " << cluster_index << " 中找到后继" << std::endl;
             int offset = cluster[cluster_index]->successor(pos);
-            return index(cluster_index, offset);
+            if (offset != -1) {
+                int result = index(cluster_index, offset);
+                std::cout << "    元素 " << x << " 的后继是 " << result << std::endl;
+                return result;
+            }
         } else {
+            std::cout << "    在当前簇中未找到后继，查找后续簇" << std::endl;
             int succ_cluster = -1;
             if (summary != nullptr) {
                 succ_cluster = summary->successor(cluster_index);
             }
+            std::cout << "    后继簇索引为 " << succ_cluster << std::endl;
             
             if (succ_cluster == -1) {
                 std::cout << "    没有后继簇，元素 " << x << " 没有后继" << std::endl;
@@ -279,17 +314,21 @@ int VanEmdeBoasTree::successor(int x) {
             } else {
                 std::cout << "    在后继簇 " << succ_cluster << " 中找到最小值作为后继" << std::endl;
                 int offset = cluster[succ_cluster]->minimum();
-                return index(succ_cluster, offset);
+                int result = index(succ_cluster, offset);
+                std::cout << "    元素 " << x << " 的后继是 " << result << std::endl;
+                return result;
             }
         }
     }
+    return -1;
 }
 
 // 查找前驱
 int VanEmdeBoasTree::predecessor(int x) {
-    std::cout << "  查找元素 " << x << " 的前驱..." << std::endl;
+    std::cout << "\n--- 查找元素 " << x << " 的前驱 ---" << std::endl;
     
     if (u <= 2) {
+        std::cout << "  基础情况(u=" << u << ")" << std::endl;
         if (x == 1 && min == 0) {
             std::cout << "    基础情况，元素1的前驱是0" << std::endl;
             return 0;
@@ -298,26 +337,35 @@ int VanEmdeBoasTree::predecessor(int x) {
             return -1;
         }
     } else if (max != -1 && x > max) {
-        std::cout << "    元素 " << x << " 大于最大值 " << max << "，前驱就是最大值" << std::endl;
+        std::cout << "  元素 " << x << " 大于最大值 " << max << "，前驱就是最大值" << std::endl;
         return max;
     } else {
+        std::cout << "  递归情况(u=" << u << ")" << std::endl;
         int cluster_index = high(x);
         int pos = low(x);
+        std::cout << "  元素 " << x << " 属于簇 " << cluster_index << "，位置 " << pos << std::endl;
         int min_low = -1;
         
         if (cluster[cluster_index] != nullptr) {
             min_low = cluster[cluster_index]->minimum();
         }
+        std::cout << "  簇 " << cluster_index << " 的最小值为 " << min_low << std::endl;
         
         if (min_low != -1 && pos > min_low) {
             std::cout << "    在簇 " << cluster_index << " 中找到前驱" << std::endl;
             int offset = cluster[cluster_index]->predecessor(pos);
-            return index(cluster_index, offset);
+            if (offset != -1) {
+                int result = index(cluster_index, offset);
+                std::cout << "    元素 " << x << " 的前驱是 " << result << std::endl;
+                return result;
+            }
         } else {
+            std::cout << "    在当前簇中未找到前驱，查找前驱簇" << std::endl;
             int pred_cluster = -1;
             if (summary != nullptr) {
                 pred_cluster = summary->predecessor(cluster_index);
             }
+            std::cout << "    前驱簇索引为 " << pred_cluster << std::endl;
             
             if (pred_cluster == -1) {
                 if (min != -1 && x > min) {
@@ -330,14 +378,18 @@ int VanEmdeBoasTree::predecessor(int x) {
             } else {
                 std::cout << "    在前驱簇 " << pred_cluster << " 中找到最大值作为前驱" << std::endl;
                 int offset = cluster[pred_cluster]->maximum();
-                return index(pred_cluster, offset);
+                int result = index(pred_cluster, offset);
+                std::cout << "    元素 " << x << " 的前驱是 " << result << std::endl;
+                return result;
             }
         }
     }
+    return -1;
 }
 
 // 创建空的vEB树
 VanEmdeBoasTree* VanEmdeBoasTree::makeEmptyVEBTree(int u) {
+    std::cout << "  创建大小为 " << u << " 的空vEB树" << std::endl;
     return new VanEmdeBoasTree(u);
 }
 
@@ -401,16 +453,20 @@ void VanEmdeBoasTree::printNode(int depth) {
 
 // 演示van Emde Boas树操作
 void demonstrateVanEmdeBoasTree() {
-    std::cout << "=== van Emde Boas树演示 ===" << std::endl;
+    std::cout << "\n########################################" << std::endl;
+    std::cout << "########## van Emde Boas树演示 ##########" << std::endl;
+    std::cout << "########################################" << std::endl;
     
     // 创建大小为16的van Emde Boas树 (2^4)
+    std::cout << "\n>>> 创建大小为16的van Emde Boas树 <<<" << std::endl;
     VanEmdeBoasTree veb(16);
     
-    std::cout << "\n--- 插入操作 ---" << std::endl;
+    std::cout << "\n--- 插入操作演示 ---" << std::endl;
     int keys[] = {2, 3, 5, 7, 11, 13, 15};
     int n = sizeof(keys)/sizeof(keys[0]);
     
     for (int i = 0; i < n; i++) {
+        std::cout << "\n========== 第 " << (i+1) << " 次插入 ==========" << std::endl;
         veb.insert(keys[i]);
         if (i % 3 == 2) { // 每插入3个节点打印一次结构
             veb.print();
@@ -419,42 +475,49 @@ void demonstrateVanEmdeBoasTree() {
     
     veb.print();
     
-    std::cout << "\n--- 成员检查操作 ---" << std::endl;
+    std::cout << "\n--- 成员检查操作演示 ---" << std::endl;
     int searchKeys[] = {3, 4, 11, 16};
     for (int i = 0; i < 4; i++) {
+        std::cout << "\n========== 检查元素 " << searchKeys[i] << " ==========" << std::endl;
         bool result = veb.member(searchKeys[i]);
-        std::cout << "元素 " << searchKeys[i] << (result ? " 存在" : " 不存在") << std::endl;
+        std::cout << ">>> 元素 " << searchKeys[i] << (result ? " 存在" : " 不存在") << " <<<" << std::endl;
     }
     
-    std::cout << "\n--- 后继操作 ---" << std::endl;
+    std::cout << "\n--- 后继操作演示 ---" << std::endl;
     int succKeys[] = {2, 5, 11, 15};
     for (int i = 0; i < 4; i++) {
+        std::cout << "\n========== 查找元素 " << succKeys[i] << " 的后继 ==========" << std::endl;
         int result = veb.successor(succKeys[i]);
         if (result != -1) {
-            std::cout << "元素 " << succKeys[i] << " 的后继是 " << result << std::endl;
+            std::cout << ">>> 元素 " << succKeys[i] << " 的后继是 " << result << " <<<" << std::endl;
         } else {
-            std::cout << "元素 " << succKeys[i] << " 没有后继" << std::endl;
+            std::cout << ">>> 元素 " << succKeys[i] << " 没有后继 <<<" << std::endl;
         }
     }
     
-    std::cout << "\n--- 前驱操作 ---" << std::endl;
+    std::cout << "\n--- 前驱操作演示 ---" << std::endl;
     int predKeys[] = {2, 5, 11, 15};
     for (int i = 0; i < 4; i++) {
+        std::cout << "\n========== 查找元素 " << predKeys[i] << " 的前驱 ==========" << std::endl;
         int result = veb.predecessor(predKeys[i]);
         if (result != -1) {
-            std::cout << "元素 " << predKeys[i] << " 的前驱是 " << result << std::endl;
+            std::cout << ">>> 元素 " << predKeys[i] << " 的前驱是 " << result << " <<<" << std::endl;
         } else {
-            std::cout << "元素 " << predKeys[i] << " 没有前驱" << std::endl;
+            std::cout << ">>> 元素 " << predKeys[i] << " 没有前驱 <<<" << std::endl;
         }
     }
     
-    std::cout << "\n--- 删除操作 ---" << std::endl;
+    std::cout << "\n--- 删除操作演示 ---" << std::endl;
     int deleteKeys[] = {3, 11};
     for (int i = 0; i < 2; i++) {
-        std::cout << "\n>>> 删除元素 " << deleteKeys[i] << " <<<" << std::endl;
+        std::cout << "\n========== 删除元素 " << deleteKeys[i] << " ==========" << std::endl;
         veb.remove(deleteKeys[i]);
         veb.print();
     }
+    
+    std::cout << "\n########################################" << std::endl;
+    std::cout << "########## 演示程序结束 ###############" << std::endl;
+    std::cout << "########################################" << std::endl;
 }
 
 int main() {
@@ -465,6 +528,8 @@ int main() {
     std::cout << "========================================" << std::endl;
     std::cout << "=== van Emde Boas树算法演示程序 ===" << std::endl;
     std::cout << "========================================" << std::endl;
+    std::cout << "本程序演示了《算法导论》第20章中van Emde Boas树的实现" << std::endl;
+    std::cout << "包括van Emde Boas树的插入、删除、查找前驱后继等核心操作" << std::endl;
     
     demonstrateVanEmdeBoasTree();
     
