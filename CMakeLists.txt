@@ -239,3 +239,8 @@ add_executable(C4-U17-P3-potential_energy_method
 add_executable(C4-U17-P4-dynamic_table
         C4/U17/P4_DYNAMIC-TABLE/DynamicTable.cpp
 )
+
+# B树独立可执行文件
+add_executable(C5-U18-B_tree
+        C5/U18/B-TREE/B-Tree.cpp
+)
