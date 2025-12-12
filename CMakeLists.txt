@@ -209,3 +209,8 @@ add_executable(C4-U16-P2-0_1_knapsack_problem
 add_executable(C4-U16-P3-huffman_coding
         C4/U16/P3_HUFFMAN-CODING/HuffmanCoding.cpp
 )
+
+# 拟阵与贪心算法独立可执行文件
+add_executable(C4-U16-P4-matroid_and_greedy_algorithm
+        C4/U16/P4_MATROID-AND-GREEDY-ALGORITHM/MatroidAndGreedyAlgorithm.cpp
+)
