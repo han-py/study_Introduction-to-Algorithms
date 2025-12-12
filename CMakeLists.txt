@@ -244,3 +244,8 @@ add_executable(C4-U17-P4-dynamic_table
 add_executable(C5-U18-B_tree
         C5/U18/B-TREE/B-Tree.cpp
 )
+
+# 斐波那契堆独立可执行文件
+add_executable(C5-U19-fibonacci_heap
+        C5/U19/FIBONACCI-HEAP/FibonacciHeap.cpp
+)
