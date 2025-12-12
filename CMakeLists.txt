@@ -224,3 +224,8 @@ add_executable(C4-U16-P5-solving_task_scheduling_problems_using_matroids
 add_executable(C4-U17-P1-aggregate_analysis
         C4/U17/P1_AGGREGATE-ANALYSIS/AggregateAnalysis.cpp
 )
+
+# 核算法独立可执行文件
+add_executable(C4-U17-P2-accounting_method
+        C4/U17/P2_ACCOUNTING-METHOD/AccountingMethod.cpp
+)
