@@ -249,3 +249,8 @@ add_executable(C5-U18-B_tree
 add_executable(C5-U19-fibonacci_heap
         C5/U19/FIBONACCI-HEAP/FibonacciHeap.cpp
 )
+
+# van Emde Boas树独立可执行文件
+add_executable(C5-U20-van_emde_boas_tree
+        C5/U20/VAN-EMDE-BOAS-TREE/VanEmdeBoasTree.cpp
+)
