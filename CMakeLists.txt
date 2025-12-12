@@ -234,3 +234,8 @@ add_executable(C4-U17-P2-accounting_method
 add_executable(C4-U17-P3-potential_energy_method
         C4/U17/P3_POTENTIAL-ENERGY-METHOD/PotentialEnergyMethod.cpp
 )
+
+# 动态表独立可执行文件
+add_executable(C4-U17-P4-dynamic_table
+        C4/U17/P4_DYNAMIC-TABLE/DynamicTable.cpp
+)
