@@ -254,3 +254,8 @@ add_executable(C5-U19-fibonacci_heap
 add_executable(C5-U20-van_emde_boas_tree
         C5/U20/VAN-EMDE-BOAS-TREE/VanEmdeBoasTree.cpp
 )
+
+# C5-U21
+add_executable(C5-U21-disjoint_set_data_structure
+        C5/U21/DISJOINT-SET-DATA-STRUCTURE/DisjointSetDataStructure.cpp
+)
