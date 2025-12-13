@@ -15,6 +15,12 @@
  * 优化策略：
  * 1. 按秩合并（Union by rank）- 将秩较小的树连接到秩较大的树下
  * 2. 路径压缩（Path compression）- 在FIND-SET操作中，使查找路径上的每个节点直接指向根节点
+ * 
+ * 时间复杂度：
+ * - MAKE-SET: O(1)
+ * - UNION: O(α(n))
+ * - FIND-SET: O(α(n))
+ * 其中α(n)是反Ackermann函数，实际上可以认为是常数时间
  */
 
 class DisjointSet {
@@ -63,6 +69,32 @@ public:
         
         std::cout << "返回根节点 " << parent[x] << std::endl;
         return parent[x];
+    }
+    
+    /**
+     * 迭代版本的FIND-SET操作
+     * 避免在很深的递归调用中可能出现的栈溢出问题
+     * @param x 要查找的元素
+     * @return 包含x的集合的代表元素
+     */
+    int findSetIterative(int x) {
+        std::cout << "FIND-SET-ITERATIVE(" << x << "): ";
+        
+        // 第一遍查找根节点
+        int root = x;
+        while (parent[root] != root) {
+            root = parent[root];
+        }
+        
+        // 第二遍进行路径压缩
+        while (parent[x] != x) {
+            int next = parent[x];
+            parent[x] = root;
+            x = next;
+        }
+        
+        std::cout << "返回根节点 " << root << std::endl;
+        return root;
     }
     
     /**
@@ -158,6 +190,21 @@ public:
         std::cout << (result ? "是" : "否") << " connected" << std::endl;
         return result;
     }
+    
+    /**
+     * 获取集合的数量
+     * @return 当前不相交集合中独立集合的数量
+     */
+    int getSetCount() {
+        int count = 0;
+        int n = parent.size();
+        for (int i = 0; i < n; i++) {
+            if (parent[i] == i) {  // 根节点代表一个集合
+                count++;
+            }
+        }
+        return count;
+    }
 };
 
 /**
@@ -212,6 +259,66 @@ void demonstrateDisjointSet() {
     ds.findSet(8);
     ds.findSet(8);
     ds.findSet(8);
+    
+    std::cout << "\n--- 迭代版本FIND-SET演示 ---" << std::endl;
+    ds.findSetIterative(2);
+    
+    std::cout << "\n--- 当前集合数量 ---" << std::endl;
+    std::cout << "当前共有 " << ds.getSetCount() << " 个独立集合" << std::endl;
+}
+
+/**
+ * Kruskal最小生成树算法示例
+ * 展示不相交集合在图算法中的应用
+ */
+void demonstrateKruskal() {
+    std::cout << "\n########################################" << std::endl;
+    std::cout << "###### Kruskal算法应用演示 ########" << std::endl;
+    std::cout << "########################################" << std::endl;
+    
+    // 假设有一个包含6个顶点(0-5)的图
+    const int vertices = 6;
+    DisjointSet ds(vertices);
+    
+    // 边的表示：{起点, 终点, 权重}
+    std::vector<std::tuple<int, int, int>> edges = {
+        {0, 1, 4}, {0, 2, 3}, {1, 2, 1}, {1, 3, 2},
+        {2, 3, 4}, {3, 4, 2}, {3, 5, 6}, {4, 5, 3}
+    };
+    
+    std::cout << "图的边列表（已按权重排序）：" << std::endl;
+    for (const auto& edge : edges) {
+        int u, v, weight;
+        std::tie(u, v, weight) = edge;
+        std::cout << "  (" << u << "," << v << ") 权重: " << weight << std::endl;
+    }
+    
+    std::cout << "\n执行Kruskal算法构建最小生成树：" << std::endl;
+    std::vector<std::tuple<int, int, int>> mst;
+    
+    for (const auto& edge : edges) {
+        int u, v, weight;
+        std::tie(u, v, weight) = edge;
+        
+        // 如果两个顶点不在同一集合中，则添加该边到MST
+        if (ds.findSet(u) != ds.findSet(v)) {
+            ds.unionSets(u, v);
+            mst.push_back(edge);
+            std::cout << "添加边 (" << u << "," << v << ") 权重: " << weight << std::endl;
+        } else {
+            std::cout << "跳过边 (" << u << "," << v << ") 权重: " << weight << " (会形成环路)" << std::endl;
+        }
+    }
+    
+    std::cout << "\n最小生成树包含的边：" << std::endl;
+    int totalWeight = 0;
+    for (const auto& edge : mst) {
+        int u, v, weight;
+        std::tie(u, v, weight) = edge;
+        std::cout << "  (" << u << "," << v << ") 权重: " << weight << std::endl;
+        totalWeight += weight;
+    }
+    std::cout << "最小生成树总权重: " << totalWeight << std::endl;
 }
 
 /**
@@ -230,6 +337,7 @@ int main() {
     std::cout << "以及按秩合并和路径压缩两种优化策略" << std::endl;
     
     demonstrateDisjointSet();
+    demonstrateKruskal();
     
     std::cout << "\n程序执行完毕，感谢使用！" << std::endl;
     return 0;
