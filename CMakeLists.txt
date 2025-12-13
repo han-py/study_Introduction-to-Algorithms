@@ -259,3 +259,8 @@ add_executable(C5-U20-van_emde_boas_tree
 add_executable(C5-U21-disjoint_set_data_structure
         C5/U21/DISJOINT-SET-DATA-STRUCTURE/DisjointSetDataStructure.cpp
 )
+
+# C6-P1
+add_executable(C6-U22-P1-graph_representation
+        C6/U22/P1_GRAPH-REPRESENTATION/GraphRepresentation.cpp
+)
